@@ -3,18 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadProfileData() {
-    // Get data from localStorage
-    // Structure: { eventsAttended: [1, 2, 3], totalCoins: 50 }
     const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
     
-    // Update DOM
     document.getElementById('coins-count').textContent = userData.totalCoins;
     document.getElementById('events-count').textContent = userData.eventsAttended.length;
 
-    // Achievement logic (example)
     const achievementsContainer = document.getElementById('achievements-container');
     if (userData.eventsAttended.length >= 1) {
-        // User has attended at least one event
         achievementsContainer.innerHTML = `
             <div class="achievement-card">
                 <div class="ach-icon">🏆</div>

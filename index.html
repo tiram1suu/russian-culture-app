@@ -2,11 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Russian Culture Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RCC App</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
@@ -28,7 +29,6 @@
         </a>
 
         <div class="hero-img-wrapper">
-            <!-- Using a placeholder or local image -->
             <img src="images/hero.jpg" alt="Culture" onerror="this.src='https://via.placeholder.com/300x400/8b0000/ffffff?text=Culture'">
         </div>
     </main>
@@ -41,5 +41,14 @@
     </nav>
 
     <script src="js/app.js"></script>
+    <script>
+        // Telegram Mini App init
+        const tg = window.Telegram.WebApp;
+        tg.expand(); 
+        tg.ready();
+        
+        
+        tg.setHeaderColor('#a51c30');
+    </script>
 </body>
 </html>

@@ -1,13 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
 
-    // Filter logic
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelector('.filter-btn.active').classList.remove('active');
             this.classList.add('active');
-            // In a real app, you would filter the list here
-            // For now, just reload all events to simulate
             loadEvents(); 
         });
     });
@@ -21,10 +18,9 @@ async function loadEvents() {
         container.innerHTML = '';
 
         events.forEach(event => {
-            // Create card HTML
             const card = document.createElement('div');
             card.className = 'event-card';
-            card.onclick = () => window.location.href = `event-detail.html?id=${event.id}`; // Simple navigation
+            card.onclick = () => window.location.href = `event-detail.html?id=${event.id}`;
 
             card.innerHTML = `
                 <div class="event-img" style="background-image: url('${event.image}');"></div>
@@ -41,6 +37,6 @@ async function loadEvents() {
 
     } catch (error) {
         console.error('Error loading events:', error);
-        document.getElementById('events-container').innerHTML = '<p style="color:red;">Не удалось загрузить события. Проверьте консоль.</p>';
+        document.getElementById('events-container').innerHTML = '<p style="color:red;">Не удалось загрузить события</p>';
     }
 }

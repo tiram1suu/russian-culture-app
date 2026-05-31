@@ -15,11 +15,8 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary-red); }
 .hamburger { font-size: 1.5rem; cursor: pointer; }
 
-/* --- Main Page Specific --- */
-.hero-section {
-    padding: 20px;
-    background: white;
-}
+/* --- Hero --- */
+.hero-section { padding: 20px; background: white; }
 .hero-title h1 { font-size: 2.5rem; line-height: 1; margin-bottom: 15px; }
 .hero-title span { color: var(--primary-red); }
 .hero-desc { color: #555; margin-bottom: 20px; }
@@ -36,10 +33,7 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
     cursor: pointer;
     text-decoration: none;
 }
-.hero-img-wrapper {
-    margin-top: 30px;
-    text-align: center;
-}
+.hero-img-wrapper { margin-top: 30px; text-align: center; }
 .hero-img-wrapper img {
     width: 100%;
     max-width: 300px;
@@ -48,12 +42,11 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
     box-shadow: 0 10px 20px rgba(165, 28, 48, 0.2);
 }
 
-/* --- Events Page (Dark Theme) --- */
+/* --- Events --- */
 .events-page { background: var(--dark-bg); min-height: 100vh; color: var(--text-light); padding: 20px; }
 .events-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .events-header h2 { font-size: 1.5rem; }
 
-/* Filter buttons */
 .filter-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
 .filter-btn {
     background: #333;
@@ -66,7 +59,6 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 }
 .filter-btn.active { background: var(--primary-red); color: white; }
 
-/* Event Card */
 .event-card {
     background: var(--dark-card);
     border-radius: 12px;
@@ -77,18 +69,8 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
     position: relative;
     cursor: pointer;
 }
-.event-img {
-    width: 40%;
-    background-size: cover;
-    background-position: center;
-}
-.event-info {
-    padding: 10px;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+.event-img { width: 40%; background-size: cover; background-position: center; }
+.event-info { padding: 10px; width: 60%; display: flex; flex-direction: column; justify-content: center; }
 .event-date { font-size: 0.7rem; color: #888; }
 .event-title { font-weight: bold; font-size: 1rem; margin: 2px 0; }
 .event-category { 
@@ -102,7 +84,7 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 }
 .event-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #555; }
 
-/* --- Profile Page (Dark) --- */
+/* --- Profile --- */
 .profile-page { background: var(--dark-bg); min-height: 100vh; color: var(--text-light); padding: 20px; text-align: center; }
 .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 .profile-avatar { 
@@ -110,13 +92,12 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
     border-radius: 50%; 
     background: #333; 
     margin: 0 auto 10px;
-    background-image: url('https://via.placeholder.com/80'); /* Placeholder */
+    background-image: url('https://via.placeholder.com/80');
     background-size: cover;
 }
 .profile-username { font-size: 1.2rem; font-weight: bold; }
 .profile-role { color: #888; font-size: 0.9rem; }
 
-/* Coins Box */
 .coins-box {
     background: #1f1f1f;
     border: 1px solid #333;
@@ -131,7 +112,6 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 .coins-label { display: flex; align-items: center; gap: 10px; }
 .coin-icon { color: #ffd700; font-size: 1.5rem; }
 
-/* Achievements */
 .achievement-card {
     background: #1f1f1f;
     border-radius: 10px;
@@ -169,7 +149,48 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 .nav-item.active { color: var(--primary-red); }
 .nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
 
-/* Event Detail Page Placeholder logic */
+
 .detail-container { padding: 20px; background: var(--dark-bg); color: white; min-height: 100vh; }
 .detail-img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; }
 .btn-join { width: 100%; padding: 15px; background: var(--primary-red); color: white; border: none; border-radius: 30px; font-size: 1.1rem; margin-top: 20px; cursor: pointer; }
+
+
+@media (min-width: 768px) {
+    body { 
+        max-width: 480px; 
+        margin: 0 auto; 
+        border-left: 1px solid #ddd; 
+        border-right: 1px solid #ddd; 
+        min-height: 100vh;
+    }
+    
+    
+}
+
+@media (min-width: 1024px) {
+    body {
+        max-width: 100%;
+        padding: 0 20%;
+        background: #f0f0f0;
+    }
+    .hero-section, .events-page, .profile-page {
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+    .bottom-nav {
+        max-width: 1024px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 0 0 20px 20px;
+    }
+    .event-card {
+        height: 150px;
+    }
+    .event-img {
+        width: 30%;
+    }
+    .event-info {
+        width: 70%;
+    }
+}
