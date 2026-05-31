@@ -1,0 +1,175 @@
+:root {
+    --primary-red: #a51c30;
+    --dark-bg: #111111;
+    --dark-card: #1a1a1a;
+    --text-light: #f5f5f5;
+    --text-grey: #aaaaaa;
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-main); background-color: #f9f9f9; color: #222; padding-bottom: 70px; }
+
+/* --- Nav / Header --- */
+header { display: flex; justify-content: space-between; padding: 20px; align-items: center; background: white; }
+.logo { font-weight: bold; font-size: 1.2rem; color: var(--primary-red); }
+.hamburger { font-size: 1.5rem; cursor: pointer; }
+
+/* --- Main Page Specific --- */
+.hero-section {
+    padding: 20px;
+    background: white;
+}
+.hero-title h1 { font-size: 2.5rem; line-height: 1; margin-bottom: 15px; }
+.hero-title span { color: var(--primary-red); }
+.hero-desc { color: #555; margin-bottom: 20px; }
+.btn-primary {
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.hero-img-wrapper {
+    margin-top: 30px;
+    text-align: center;
+}
+.hero-img-wrapper img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 150px 150px 0 0;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(165, 28, 48, 0.2);
+}
+
+/* --- Events Page (Dark Theme) --- */
+.events-page { background: var(--dark-bg); min-height: 100vh; color: var(--text-light); padding: 20px; }
+.events-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.events-header h2 { font-size: 1.5rem; }
+
+/* Filter buttons */
+.filter-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
+.filter-btn {
+    background: #333;
+    color: #aaa;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.filter-btn.active { background: var(--primary-red); color: white; }
+
+/* Event Card */
+.event-card {
+    background: var(--dark-card);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    height: 120px;
+    position: relative;
+    cursor: pointer;
+}
+.event-img {
+    width: 40%;
+    background-size: cover;
+    background-position: center;
+}
+.event-info {
+    padding: 10px;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.event-date { font-size: 0.7rem; color: #888; }
+.event-title { font-weight: bold; font-size: 1rem; margin: 2px 0; }
+.event-category { 
+    background: #333; 
+    color: #aaa; 
+    font-size: 0.6rem; 
+    padding: 2px 8px; 
+    border-radius: 10px; 
+    width: fit-content;
+    margin-top: 5px;
+}
+.event-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #555; }
+
+/* --- Profile Page (Dark) --- */
+.profile-page { background: var(--dark-bg); min-height: 100vh; color: var(--text-light); padding: 20px; text-align: center; }
+.profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.profile-avatar { 
+    width: 80px; height: 80px; 
+    border-radius: 50%; 
+    background: #333; 
+    margin: 0 auto 10px;
+    background-image: url('https://via.placeholder.com/80'); /* Placeholder */
+    background-size: cover;
+}
+.profile-username { font-size: 1.2rem; font-weight: bold; }
+.profile-role { color: #888; font-size: 0.9rem; }
+
+/* Coins Box */
+.coins-box {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.coins-value { font-size: 1.5rem; color: #ffd700; }
+.coins-label { display: flex; align-items: center; gap: 10px; }
+.coin-icon { color: #ffd700; font-size: 1.5rem; }
+
+/* Achievements */
+.achievement-card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+.ach-icon { font-size: 1.5rem; color: #ffd700; }
+
+/* --- Bottom Nav --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    z-index: 100;
+}
+.nav-item { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-decoration: none; 
+    color: #aaa; 
+    font-size: 0.7rem;
+    transition: 0.2s;
+}
+.nav-item.active { color: var(--primary-red); }
+.nav-item i { font-size: 1.3rem; margin-bottom: 3px; }
+
+/* Event Detail Page Placeholder logic */
+.detail-container { padding: 20px; background: var(--dark-bg); color: white; min-height: 100vh; }
+.detail-img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; }
+.btn-join { width: 100%; padding: 15px; background: var(--primary-red); color: white; border: none; border-radius: 30px; font-size: 1.1rem; margin-top: 20px; cursor: pointer; }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="events-page">
+
+    <div class="events-header">
+        <h2>СОБЫТИЯ</h2>
+        <i class="fas fa-sliders-h"></i>
+    </div>
+
+    <div class="filter-container">
+        <button class="filter-btn active">Все</button>
+        <button class="filter-btn">Кино</button>
+        <button class="filter-btn">Музыка</button>
+        <button class="filter-btn">Язык</button>
+        <button class="filter-btn">Еда</button>
+    </div>
+
+    <div id="events-container">
+        <!-- Cards will be inserted by JS -->
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Главная</a>
+        <a href="events.html" class="nav-item active"><i class="fas fa-calendar-alt"></i> События</a>
+        <a href="profile.html" class="nav-item"><i class="fas fa-user"></i> Профиль</a>
+    </nav>
+
+    <script src="js/events.js"></script>
+</body>
+</html>

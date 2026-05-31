@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали события</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #111; color: white;">
+
+    <div class="detail-container">
+        <!-- Back button -->
+        <div style="margin-bottom: 15px;"><a href="events.html" style="color:white; text-decoration:none;"><i class="fas fa-arrow-left"></i> Назад</a></div>
+
+        <div id="detail-content">
+            <h2>Загрузка...</h2>
+        </div>
+    </div>
+
+    <script>
+        // Very simple script to simulate detail page with "Join" logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = parseInt(urlParams.get('id'));
+
+            // In a real app, you fetch events.json again. Here we simulate:
+            const event = { 
+                id: eventId, 
+                title: "Киновечер «Брат»", 
+                image: "images/brat.jpg", 
+                date: "23 мая", 
+                time: "19:00", 
+                desc: "Смотрим культовый фильм Алексея Балабанова в уютной атмосфере. Обсуждаем после просмотра.",
+                coins: 20 
+            };
+
+            const container = document.getElementById('detail-content');
+            container.innerHTML = `
+                <img src="${event.image}" class="detail-img" onerror="this.src='https://via.placeholder.com/400x200'">
+                <h1>${event.title}</h1>
+                <div style="display:flex; gap:10px; margin:10px 0; color:#888; font-size:0.9rem;">
+                    <span>📅 ${event.date}</span>
+                    <span>⏰ ${event.time}</span>
+                </div>
+                <p style="color:#ddd; line-height:1.5;">${event.desc}</p>
+                <div style="margin: 20px 0; color:#ffd700;">+ ${event.coins} монет за посещение</div>
+                
+                <button class="btn-join" onclick="joinEvent(${event.id}, ${event.coins})">Я ИДУ</button>
+            `;
+        });
+
+        function joinEvent(id, coins) {
+            // Load current data
+            let userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
+            
+            // Prevent double counting
+            if (userData.eventsAttended.includes(id)) {
+                alert("Вы уже записаны на это событие!");
+                return;
+            }
+
+            // Update
+            userData.eventsAttended.push(id);
+            userData.totalCoins += coins;
+            
+            // Save
+            localStorage.setItem('russianCultureUser', JSON.stringify(userData));
+            
+            alert(`Вы записаны! +${coins} монет. Всего: ${userData.totalCoins}`);
+            
+            // Redirect to profile
+            window.location.href = 'profile.html';
+        }
+    </script>
+</body>
+</html>

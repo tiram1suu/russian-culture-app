@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Киновечер «Брат»",
+    "category": "Кино",
+    "date": "23 мая",
+    "time": "19:00",
+    "coins": 20,
+    "image": "images/brat.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Языковой Exchange",
+    "category": "Язык",
+    "date": "25 мая",
+    "time": "17:00",
+    "coins": 15,
+    "image": "images/language.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Музыкальный вечер",
+    "category": "Музыка",
+    "date": "28 мая",
+    "time": "18:30",
+    "coins": 25,
+    "image": "images/music.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Русская кухня",
+    "category": "Еда",
+    "date": "1 июня",
+    "time": "16:00",
+    "coins": 30,
+    "image": "images/food.jpg"
+  }
+]
