@@ -6,7 +6,8 @@
     "date": "23 мая",
     "time": "19:00",
     "coins": 20,
-    "image": "images/brat.jpg"
+    "image": "images/brat.jpg",
+    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "date": "25 мая",
     "time": "17:00",
     "coins": 15,
-    "image": "images/language.jpg"
+    "image": "images/language.jpg",
+    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "date": "28 мая",
     "time": "18:30",
     "coins": 25,
-    "image": "images/music.jpg"
+    "image": "images/music.jpg",
+    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
   },
   {
     "id": 4,
@@ -33,6 +36,7 @@
     "date": "1 июня",
     "time": "16:00",
     "coins": 30,
-    "image": "images/food.jpg"
+    "image": "images/food.jpg",
+    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
   }
 ]

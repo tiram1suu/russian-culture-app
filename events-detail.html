@@ -23,37 +23,42 @@
         tg.expand();
         tg.ready();
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const eventId = parseInt(urlParams.get('id'));
 
             
-            const event = { 
-                id: eventId, 
-                title: "Киновечер «Брат»", 
-                image: "images/brat.jpg", 
-                date: "23 мая", 
-                time: "19:00", 
-                desc: "Смотрим культовый фильм Алексея Балабанова в уютной атмосфере. Обсуждаем после просмотра.",
-                coins: 20 
-            };
+            try {
+                const response = await fetch('data/events.json');
+                const events = await response.json();
+                const event = events.find(e => e.id === eventId);
 
-            const container = document.getElementById('detail-content');
-            container.innerHTML = `
-                <img src="${event.image}" class="detail-img" onerror="this.src='https://via.placeholder.com/400x200'">
-                <h1>${event.title}</h1>
-                <div style="display:flex; gap:10px; margin:10px 0; color:#888; font-size:0.9rem;">
-                    <span>📅 ${event.date}</span>
-                    <span>⏰ ${event.time}</span>
-                </div>
-                <p style="color:#ddd; line-height:1.5;">${event.desc}</p>
-                <div style="margin: 20px 0; color:#ffd700;">+ ${event.coins} монет за посещение</div>
-                
-                <button class="btn-join" onclick="joinEvent(${event.id}, ${event.coins})">Я ИДУ</button>
-            `;
+                if (!event) {
+                    document.getElementById('detail-content').innerHTML = '<p>Событие не найдено</p>';
+                    return;
+                }
+
+                const container = document.getElementById('detail-content');
+                container.innerHTML = `
+                    <img src="${event.image}" class="detail-img" onerror="this.src='https://via.placeholder.com/400x200'">
+                    <h1>${event.title}</h1>
+                    <div style="display:flex; gap:10px; margin:10px 0; color:#888; font-size:0.9rem;">
+                        <span>📅 ${event.date}</span>
+                        <span>⏰ ${event.time}</span>
+                    </div>
+                    <p style="color:#ddd; line-height:1.5;">${event.description || 'Описание события...'}</p>
+                    <div style="margin: 20px 0; color:#ffd700;">+ ${event.coins} монет за посещение</div>
+                    
+                    <button class="btn-join" onclick="joinEvent(${event.id}, ${event.coins}, '${event.form_link}')">Я ИДУ</button>
+                `;
+            } catch (error) {
+                console.error('Ошибка загрузки события:', error);
+                document.getElementById('detail-content').innerHTML = '<p style="color:red;">Ошибка загрузки</p>';
+            }
         });
 
-        function joinEvent(id, coins) {
+        function joinEvent(id, coins, formLink) {
+            
             let userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
             
             if (userData.eventsAttended.includes(id)) {
@@ -61,12 +66,16 @@
                 return;
             }
 
+            
             userData.eventsAttended.push(id);
             userData.totalCoins += coins;
             localStorage.setItem('russianCultureUser', JSON.stringify(userData));
+
             
-            tg.showAlert(`Вы записаны! +${coins} монет. Всего: ${userData.totalCoins}`);
-            window.location.href = 'profile.html';
+            tg.openLink(formLink);
+
+            
+            tg.showAlert(`Вы записаны! +${coins} монет. Всего: ${userData.totalCoins}\nТеперь заполните форму.`);
         }
     </script>
 </body>
