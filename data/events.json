@@ -7,7 +7,7 @@
     "time": "19:00",
     "coins": 20,
     "image": "images/brat.jpg",
-    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
+    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
   },
   {
     "id": 2,
@@ -17,7 +17,7 @@
     "time": "17:00",
     "coins": 15,
     "image": "images/language.jpg",
-    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
+    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
   },
   {
     "id": 3,
@@ -27,7 +27,7 @@
     "time": "18:30",
     "coins": 25,
     "image": "images/music.jpg",
-    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
+    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
   },
   {
     "id": 4,
@@ -37,6 +37,6 @@
     "time": "16:00",
     "coins": 30,
     "image": "images/food.jpg",
-    "form_link": "https://forms.yandex.ru/u/65abcd123456/"
+    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
   }
 ]
