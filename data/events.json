@@ -1,15 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Киновечер «Брат»",
-    "category": "Кино",
-    "date": "23 мая",
-    "time": "19:00",
-    "coins": 20,
-    "image": "images/brat.jpg",
-    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
-  },
-  {
     "id": 2,
     "title": "Языковой Exchange",
     "category": "Язык",
