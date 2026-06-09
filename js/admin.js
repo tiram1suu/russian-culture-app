@@ -37,7 +37,7 @@ async function loadEvents() {
             }
         });
         const data = await response.json();
-        const content = atob(data.content);
+        const content = decodeURIComponent(escape(atob(data.content)));
         currentEvents = JSON.parse(content);
         renderEvents();
     } catch (error) {
@@ -243,6 +243,7 @@ function showShopForm() {
     document.getElementById('shop-edit-title').value = '';
     document.getElementById('shop-edit-description').value = '';
     document.getElementById('shop-edit-price').value = '';
+    document.getElementById('shop-edit-limit').value = '';
     document.getElementById('shop-image-preview').innerHTML = '';
     document.getElementById('shop-edit-image').value = '';
     editingShopId = null;
@@ -302,6 +303,7 @@ function editShopItem(id) {
     document.getElementById('shop-edit-title').value = item.title;
     document.getElementById('shop-edit-description').value = item.description;
     document.getElementById('shop-edit-price').value = item.price;
+    document.getElementById('shop-edit-limit').value = item.limit || '';
     document.getElementById('shop-image-preview').innerHTML = `<img src="${item.image}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;">`;
     document.getElementById('shop-edit-image').value = '';
     document.getElementById('shop-admin-form').style.display = 'block';
@@ -312,6 +314,7 @@ async function saveShopItem() {
     const title = document.getElementById('shop-edit-title').value.trim();
     const description = document.getElementById('shop-edit-description').value.trim();
     const price = parseInt(document.getElementById('shop-edit-price').value) || 0;
+    const limit = parseInt(document.getElementById('shop-edit-limit').value) || 0;
 
     if (!title || !price) {
         alert('Заполните название и цену!');
@@ -333,6 +336,7 @@ async function saveShopItem() {
             shopItems[idx].title = title;
             shopItems[idx].description = description;
             shopItems[idx].price = price;
+            shopItems[idx].limit = limit;
             if (imageName) shopItems[idx].image = `images/${imageName}`;
         }
     } else {
@@ -342,6 +346,7 @@ async function saveShopItem() {
             title: title,
             description: description,
             price: price,
+            limit: limit,
             image: imageName ? `images/${imageName}` : ''
         });
     }
@@ -396,7 +401,7 @@ async function loadPurchases() {
             document.getElementById('purchases-container').innerHTML = '<p style="color:#888;">Пока нет покупок</p>';
             return;
         }
-        const purchases = JSON.parse(atob(data.content));
+        const purchases = JSON.parse(decodeURIComponent(escape(atob(data.content))));
         const container = document.getElementById('purchases-container');
         container.innerHTML = purchases.reverse().map(p => `
             <div class="event-item">
