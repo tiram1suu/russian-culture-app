@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Тестовый товар",
+    "description": "Тестовый товар",
+    "price": -1,
+    "image": "images/event_1781037369670.jpg"
+  },
+  {
+    "id": 2,
+    "title": "новый товар",
+    "description": "новый",
+    "price": 1,
+    "image": ""
+  }
+]
