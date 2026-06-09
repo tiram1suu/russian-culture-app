@@ -1,3 +1,4 @@
+javascript
 document.addEventListener('DOMContentLoaded', () => {
     loadShop();
     loadCoins();
@@ -13,21 +14,23 @@ async function loadShop() {
         const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
         let purchased = JSON.parse(localStorage.getItem('purchasedItems')) || [];
 
-        const existingIds = items.map(i => i.id);
-        purchased = purchased.filter(id => existingIds.includes(id));
-        localStorage.setItem('purchasedItems', JSON.stringify(purchased));
-
-        
         let allPurchases = [];
         try {
             const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
             allPurchases = await purchasesResponse.json();
         } catch (e) {
-            
+            // Ignore
         }
 
+        const existingIds = items.map(i => i.id);
+        purchased = purchased.filter(id => existingIds.includes(id));
+        localStorage.setItem('purchasedItems', JSON.stringify(purchased));
+
+        const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+        const myUsername = tgUser ? tgUser.username || tgUser.first_name : '';
+
         items.forEach(item => {
-            const isPurchasedByMe = purchased.includes(item.id);
+            const isPurchasedByMe = allPurchases.some(p => p.itemId === item.id && p.username.includes(myUsername));
             const totalPurchased = allPurchases.filter(p => p.itemId === item.id).length;
             const isSoldOut = item.limit && totalPurchased >= item.limit;
             const canBuy = userData.totalCoins >= item.price && !isPurchasedByMe && !isSoldOut;
@@ -46,6 +49,11 @@ async function loadShop() {
             `;
             container.appendChild(card);
         });
+
+        const realPurchased = allPurchases
+            .filter(p => p.username.includes(myUsername))
+            .map(p => p.itemId);
+        localStorage.setItem('purchasedItems', JSON.stringify(realPurchased));
 
     } catch (error) {
         console.error('Error loading shop:', error);
@@ -73,7 +81,6 @@ async function buyItem(id, price) {
         return;
     }
 
-   
     const shopResponse = await fetch(`data/shop.json?t=${Date.now()}`);
     const items = await shopResponse.json();
     const item = items.find(i => i.id === id);
@@ -87,19 +94,17 @@ async function buyItem(id, price) {
                 return;
             }
         } catch (e) {
-            
+            // Ignore
         }
     }
 
     if (!confirm(`Купить "${item.title}" за ${price} монет?`)) return;
 
-    
     userData.totalCoins -= price;
     purchased.push(id);
     localStorage.setItem('russianCultureUser', JSON.stringify(userData));
     localStorage.setItem('purchasedItems', JSON.stringify(purchased));
 
-    
     const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
     const username = tgUser ? `@${tgUser.username || tgUser.first_name}` : 'Гость';
     const purchase = {
@@ -109,10 +114,6 @@ async function buyItem(id, price) {
         date: new Date().toISOString()
     };
 
-    
-    await ensurePurchasesFileExists();
-
-    
     await savePurchaseToGitHub(purchase);
 
     loadShop();
@@ -120,38 +121,9 @@ async function buyItem(id, price) {
     tg.showAlert('✅ Покупка успешна!');
 }
 
-
-async function ensurePurchasesFileExists() {
-    try {
-        const token = localStorage.getItem('github_token');
-        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
-            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-        });
-        
-        if (response.ok) return;
-        
-        
-        const putResponse = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
-            method: 'PUT',
-            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
-            body: JSON.stringify({
-                message: 'Create purchases.json',
-                content: btoa(unescape(encodeURIComponent(JSON.stringify([])))),
-                sha: null
-            })
-        });
-        if (!putResponse.ok) {
-            console.error('Не удалось создать purchases.json');
-        }
-    } catch (error) {
-        console.error('Ошибка при создании purchases.json:', error);
-    }
-}
-
 async function savePurchaseToGitHub(purchase) {
     try {
         const token = localStorage.getItem('github_token');
-        
         const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
