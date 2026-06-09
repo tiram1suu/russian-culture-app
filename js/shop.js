@@ -13,7 +13,6 @@ async function loadShop() {
         const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
         const purchased = JSON.parse(localStorage.getItem('purchasedItems')) || [];
 
-        
         const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
         const allPurchases = await purchasesResponse.json();
 
@@ -64,7 +63,6 @@ async function buyItem(id, price) {
         return;
     }
 
-    
     const shopResponse = await fetch(`data/shop.json?t=${Date.now()}`);
     const items = await shopResponse.json();
     const item = items.find(i => i.id === id);
@@ -80,13 +78,11 @@ async function buyItem(id, price) {
 
     if (!confirm(`Купить "${item.title}" за ${price} монет?`)) return;
 
-    
     userData.totalCoins -= price;
     purchased.push(id);
     localStorage.setItem('russianCultureUser', JSON.stringify(userData));
     localStorage.setItem('purchasedItems', JSON.stringify(purchased));
 
-    
     const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
     const username = tgUser ? `@${tgUser.username || tgUser.first_name}` : 'Гость';
     const purchase = {
@@ -96,7 +92,6 @@ async function buyItem(id, price) {
         date: new Date().toISOString()
     };
 
-    
     await savePurchaseToGitHub(purchase);
 
     loadShop();
@@ -107,7 +102,6 @@ async function buyItem(id, price) {
 async function savePurchaseToGitHub(purchase) {
     try {
         const token = localStorage.getItem('github_token');
-        
         const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
@@ -115,7 +109,7 @@ async function savePurchaseToGitHub(purchase) {
         const sha = data.sha;
         let purchases = [];
         if (data.content) {
-            purchases = JSON.parse(atob(data.content));
+            purchases = JSON.parse(decodeURIComponent(escape(atob(data.content))));
         }
         purchases.push(purchase);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(purchases, null, 2))));
