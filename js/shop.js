@@ -106,7 +106,7 @@ async function buyItem(id, price) {
 async function savePurchaseToGitHub(purchase) {
     try {
         const token = localStorage.getItem('github_token');
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/purchases.json`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
         const data = await response.json();
@@ -117,7 +117,7 @@ async function savePurchaseToGitHub(purchase) {
         }
         purchases.push(purchase);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(purchases, null, 2))));
-        const putResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/purchases.json`, {
+        const putResponse = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             method: 'PUT',
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
             body: JSON.stringify({
