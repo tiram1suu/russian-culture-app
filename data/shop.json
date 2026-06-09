@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Опять тест",
+    "description": "тест",
+    "price": 1,
+    "limit": 1,
+    "image": ""
+  }
+]
