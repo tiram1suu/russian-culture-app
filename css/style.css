@@ -280,3 +280,20 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 .btn-cancel-card:hover {
     background: var(--primary-red);
 }
+
+.btn-share-card {
+    background: transparent;
+    color: #888;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-left: 8px;
+}
+
+.btn-share-card:hover {
+    color: #4a9eff;
+    background: rgba(74, 158, 255, 0.1);
+}

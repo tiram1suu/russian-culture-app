@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    loadEvents();
+    loadEvents().then(() => scrollToEvent());
 });
 
 async function loadEvents() {
@@ -9,16 +9,10 @@ async function loadEvents() {
         const container = document.getElementById('events-container');
         container.innerHTML = '';
 
-
+       
         let userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
-        
-
         const existingIds = events.map(e => e.id);
-        
-
         const validAttended = userData.eventsAttended.filter(id => existingIds.includes(id));
-        
-
         if (validAttended.length !== userData.eventsAttended.length) {
             userData.eventsAttended = validAttended;
             localStorage.setItem('russianCultureUser', JSON.stringify(userData));
@@ -30,7 +24,7 @@ async function loadEvents() {
 
             const isAttended = userData.eventsAttended.includes(event.id);
 
-
+            
             let actionButton = '';
             if (isAttended) {
                 actionButton = `
@@ -59,6 +53,9 @@ async function loadEvents() {
                     </div>
                     <div class="event-actions">
                         ${actionButton}
+                        <button class="btn-share-card" onclick="shareEvent(${event.id}, '${event.title}', '${event.date}', '${event.time}')">
+                            📤 Поделиться
+                        </button>
                     </div>
                 </div>
             `;
@@ -105,18 +102,41 @@ function cancelEvent(id, coins) {
         return;
     }
 
-    
     if (!confirm('Вы уверены, что хотите отменить запись? Монеты вернутся.')) return;
 
-    
     userData.eventsAttended = userData.eventsAttended.filter(e => e !== id);
     userData.totalCoins -= coins;
-    
-    
     if (userData.totalCoins < 0) userData.totalCoins = 0;
-    
     localStorage.setItem('russianCultureUser', JSON.stringify(userData));
 
     loadEvents();
     tg.showAlert(`Запись отменена. Возвращено ${coins} монет. Всего: ${userData.totalCoins}`);
+}
+
+
+function shareEvent(id, title, date, time) {
+    const tg = window.Telegram.WebApp;
+    
+    
+    const appUrl = `https://tiram1suu.github.io/russian-culture-app/events.html?id=${id}`;
+    
+    
+    const message = `🎉 Новое событие в Russian Culture Center!\n\n📌 ${title}\n📅 ${date} • ${time}\n\n🔗 Записаться: ${appUrl}`;
+    
+    
+    tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(appUrl)}&text=${encodeURIComponent(message)}`);
+}
+
+
+function scrollToEvent() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = parseInt(urlParams.get('id'));
+    if (!eventId) return;
+
+    
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.event-card');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 1000);
 }
