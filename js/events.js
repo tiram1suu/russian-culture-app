@@ -9,14 +9,28 @@ async function loadEvents() {
         const container = document.getElementById('events-container');
         container.innerHTML = '';
 
+
+        let userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
+        
+
+        const existingIds = events.map(e => e.id);
+        
+
+        const validAttended = userData.eventsAttended.filter(id => existingIds.includes(id));
+        
+
+        if (validAttended.length !== userData.eventsAttended.length) {
+            userData.eventsAttended = validAttended;
+            localStorage.setItem('russianCultureUser', JSON.stringify(userData));
+        }
+
         events.forEach(event => {
             const card = document.createElement('div');
             card.className = 'event-card';
 
-            const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
             const isAttended = userData.eventsAttended.includes(event.id);
 
-            
+
             let actionButton = '';
             if (isAttended) {
                 actionButton = `
