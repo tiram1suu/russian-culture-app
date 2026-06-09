@@ -219,7 +219,7 @@ async function saveEventsToGitHub(token) {
         const sha = data.sha;
 
        
-        const content = btoa(JSON.stringify(currentEvents, null, 2));
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentEvents, null, 2))));
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             method: 'PUT',
             headers: {
