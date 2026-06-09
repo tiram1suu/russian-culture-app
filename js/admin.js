@@ -271,23 +271,7 @@ async function loadShopItems() {
     try {
         const response = await fetch(`data/shop.json?t=${Date.now()}`);
         shopItems = await response.json();
-        const container = document.getElementById('shop-items-container');
-        if (shopItems.length === 0) {
-            container.innerHTML = '<p style="color:#888;">Пока нет товаров</p>';
-            return;
-        }
-        container.innerHTML = shopItems.map(item => `
-            <div class="event-item">
-                <div>
-                    <strong>${item.title}</strong> (🪙 ${item.price})<br>
-                    <span style="color:#888; font-size:0.8rem;">${item.description}</span>
-                </div>
-                <div>
-                    <button onclick="editShopItem(${item.id})"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteShopItem(${item.id})"><i class="fas fa-trash"></i></button>
-                </div>
-            </div>
-        `).join('');
+        renderShopItems();
     } catch (error) {
         console.error('Error loading shop:', error);
         document.getElementById('shop-items-container').innerHTML = '<p style="color:red;">Ошибка загрузки</p>';
@@ -353,7 +337,7 @@ async function saveShopItem() {
 
     await saveShopToGitHub(token);
     cancelShopEdit();
-    loadShopItems();
+    renderShopItems();
 }
 
 async function saveShopToGitHub(token) {
@@ -388,7 +372,25 @@ async function deleteShopItem(id) {
     loadShopItems();
 }
 
-loadShopItems();
+function renderShopItems() {
+    const container = document.getElementById('shop-items-container');
+    if (shopItems.length === 0) {
+        container.innerHTML = '<p style="color:#888;">Пока нет товаров</p>';
+        return;
+    }
+    container.innerHTML = shopItems.map(item => `
+        <div class="event-item">
+            <div>
+                <strong>${item.title}</strong> (🪙 ${item.price})<br>
+                <span style="color:#888; font-size:0.8rem;">${item.description}</span>
+            </div>
+            <div>
+                <button onclick="editShopItem(${item.id})"><i class="fas fa-edit"></i></button>
+                <button onclick="deleteShopItem(${item.id})"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
 
 async function loadPurchases() {
     try {
