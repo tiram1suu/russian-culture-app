@@ -1,13 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Дай бог получится",
-    "description": "аминь",
-    "price": 2,
-    "limit": 1,
-    "image": ""
-  },
-  {
     "id": 2,
     "title": "Еще раз",
     "description": "еще один раз",
