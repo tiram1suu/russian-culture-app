@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadEvents() {
     try {
-        const response = await fetch('data/events.json');
+        const response = await fetch(`data/events.json?t=${Date.now()}`);
         const events = await response.json();
         const container = document.getElementById('events-container');
         container.innerHTML = '';
