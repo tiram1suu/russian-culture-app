@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "кот",
+    "description": "собака",
+    "price": 1,
+    "limit": 3,
+    "image": ""
+  }
+]
