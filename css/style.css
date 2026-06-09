@@ -36,7 +36,7 @@ header { display: flex; justify-content: space-between; padding: 20px; align-ite
 .hero-img-wrapper {
     margin-top: 20px;
     text-align: center;
-    height: 345px;
+    height: 330px;
     overflow: hidden;
     border-radius: 150px 150px 0 0;
     max-width: 300px;
