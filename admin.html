@@ -30,8 +30,16 @@
 <div id="app" class="admin-container">
     <div id="login-screen" class="admin-login">
         <h2 style="color:white; margin-bottom: 20px;">🔐 Вход в админ-панель</h2>
+        
         <input type="password" id="admin-password" placeholder="Введите пароль">
+        
+        <input type="password" id="admin-token" placeholder="Введите GitHub токен (один раз)">
+        
         <button onclick="checkPassword()">Войти</button>
+        
+        <p style="color:#888; font-size:0.8rem; margin-top:10px;">
+            Токен сохранится в вашем браузере
+        </p>
     </div>
 
     <div id="admin-screen" style="display:none;">

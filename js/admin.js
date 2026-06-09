@@ -1,13 +1,31 @@
-const GITHUB_USERNAME = "tiram1suu"; 
-const REPO_NAME = "russian-culture-app";  
+// ===== КОНФИГУРАЦИЯ =====
+const GITHUB_USERNAME = "tiram1suu";
+const REPO_NAME = "russian-culture-app";
+const ADMIN_PASSWORD = "RCC2025!"; 
 
 let currentEvents = [];
 let editingId = null;
 let uploadedImageBase64 = null;
 
+
 function checkPassword() {
     const password = document.getElementById('admin-password').value;
+    const token = document.getElementById('admin-token').value;
+    
     if (password === ADMIN_PASSWORD) {
+        
+        if (token) {
+            localStorage.setItem('github_token', token);
+        }
+        
+        
+        const savedToken = localStorage.getItem('github_token');
+        if (!savedToken && !token) {
+            alert('Введите GitHub токен');
+            return;
+        }
+        
+        
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-screen').style.display = 'block';
         loadEvents();
@@ -16,19 +34,13 @@ function checkPassword() {
     }
 }
 
-function logout() {
-    document.getElementById('admin-screen').style.display = 'none';
-    document.getElementById('login-screen').style.display = 'block';
-    document.getElementById('admin-password').value = '';
-    editingId = null;
-    uploadedImageBase64 = null;
-}
 
 async function loadEvents() {
+    const token = localStorage.getItem('github_token');
     try {
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             headers: {
-                'Authorization': `token ${TOKEN}`,
+                'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
@@ -41,6 +53,7 @@ async function loadEvents() {
         document.getElementById('events-container-admin').innerHTML = '<p style="color:red;">Ошибка загрузки событий</p>';
     }
 }
+
 
 function renderEvents() {
     const container = document.getElementById('events-container-admin');
@@ -61,6 +74,7 @@ function renderEvents() {
         </div>
     `).join('');
 }
+
 
 function editEvent(id) {
     const event = currentEvents.find(e => e.id === id);
@@ -94,6 +108,7 @@ function cancelEdit() {
     uploadedImageBase64 = null;
 }
 
+
 document.getElementById('edit-image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -105,7 +120,9 @@ document.getElementById('edit-image').addEventListener('change', function(e) {
     reader.readAsDataURL(file);
 });
 
+
 async function saveEvent() {
+    const token = localStorage.getItem('github_token');
     const title = document.getElementById('edit-title').value.trim();
     const category = document.getElementById('edit-category').value.trim();
     const date = document.getElementById('edit-date').value.trim();
@@ -121,7 +138,7 @@ async function saveEvent() {
     let imageName = '';
     if (uploadedImageBase64) {
         
-        imageName = await uploadImage(uploadedImageBase64);
+        imageName = await uploadImage(uploadedImageBase64, token);
         if (!imageName) {
             alert('Ошибка загрузки картинки');
             return;
@@ -155,20 +172,20 @@ async function saveEvent() {
         });
     }
 
-    await saveEventsToGitHub();
+    await saveEventsToGitHub(token);
     cancelEdit();
     renderEvents();
 }
 
 
-async function uploadImage(base64Image) {
+async function uploadImage(base64Image, token) {
     try {
         const fileName = `event_${Date.now()}.jpg`;
-        const content = base64Image.split(',')[1]; // убираем префикс data:image/...
+        const content = base64Image.split(',')[1];
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/images/${fileName}`, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${TOKEN}`,
+                'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
             },
             body: JSON.stringify({
@@ -189,24 +206,24 @@ async function uploadImage(base64Image) {
 }
 
 
-async function saveEventsToGitHub() {
+async function saveEventsToGitHub(token) {
     try {
         
         const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             headers: {
-                'Authorization': `token ${TOKEN}`,
+                'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
         const data = await getResponse.json();
         const sha = data.sha;
 
-        
+       
         const content = btoa(JSON.stringify(currentEvents, null, 2));
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${TOKEN}`,
+                'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
             },
             body: JSON.stringify({
@@ -230,7 +247,8 @@ async function saveEventsToGitHub() {
 
 async function deleteEvent(id) {
     if (!confirm('Удалить это событие?')) return;
+    const token = localStorage.getItem('github_token');
     currentEvents = currentEvents.filter(e => e.id !== id);
-    await saveEventsToGitHub();
+    await saveEventsToGitHub(token);
     renderEvents();
 }
