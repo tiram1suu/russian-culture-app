@@ -18,5 +18,15 @@
     "coins": 2,
     "image": "images/event_1781018352826.jpg",
     "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
+  },
+  {
+    "id": 3,
+    "title": "Рисование бомбусов",
+    "category": "Саморазвитие",
+    "date": "1 августа",
+    "time": "6:00",
+    "coins": 6,
+    "image": "images/event_1781018415925.jpg",
+    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
   }
 ]
