@@ -1,31 +1,24 @@
-// ===== КОНФИГУРАЦИЯ =====
 const GITHUB_USERNAME = "tiram1suu";
 const REPO_NAME = "russian-culture-app";
-const ADMIN_PASSWORD = "RCC2025!"; 
+const ADMIN_PASSWORD = "RCC2025!";
 
 let currentEvents = [];
 let editingId = null;
 let uploadedImageBase64 = null;
-
 
 function checkPassword() {
     const password = document.getElementById('admin-password').value;
     const token = document.getElementById('admin-token').value;
     
     if (password === ADMIN_PASSWORD) {
-        
         if (token) {
             localStorage.setItem('github_token', token);
         }
-        
-        
         const savedToken = localStorage.getItem('github_token');
         if (!savedToken && !token) {
             alert('Введите GitHub токен');
             return;
         }
-        
-        
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-screen').style.display = 'block';
         loadEvents();
@@ -33,7 +26,6 @@ function checkPassword() {
         alert('Неверный пароль!');
     }
 }
-
 
 async function loadEvents() {
     const token = localStorage.getItem('github_token');
@@ -54,7 +46,6 @@ async function loadEvents() {
     }
 }
 
-
 function renderEvents() {
     const container = document.getElementById('events-container-admin');
     if (currentEvents.length === 0) {
@@ -74,7 +65,6 @@ function renderEvents() {
         </div>
     `).join('');
 }
-
 
 function editEvent(id) {
     const event = currentEvents.find(e => e.id === id);
@@ -108,7 +98,6 @@ function cancelEdit() {
     uploadedImageBase64 = null;
 }
 
-
 document.getElementById('edit-image').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -119,7 +108,6 @@ document.getElementById('edit-image').addEventListener('change', function(e) {
     };
     reader.readAsDataURL(file);
 });
-
 
 async function saveEvent() {
     const token = localStorage.getItem('github_token');
@@ -137,7 +125,6 @@ async function saveEvent() {
 
     let imageName = '';
     if (uploadedImageBase64) {
-        
         imageName = await uploadImage(uploadedImageBase64, token);
         if (!imageName) {
             alert('Ошибка загрузки картинки');
@@ -146,7 +133,6 @@ async function saveEvent() {
     }
 
     if (editingId) {
-        
         const idx = currentEvents.findIndex(e => e.id === editingId);
         if (idx !== -1) {
             currentEvents[idx].title = title;
@@ -158,7 +144,6 @@ async function saveEvent() {
             if (imageName) currentEvents[idx].image = `images/${imageName}`;
         }
     } else {
-        
         const newId = currentEvents.length > 0 ? Math.max(...currentEvents.map(e => e.id)) + 1 : 1;
         currentEvents.push({
             id: newId,
@@ -176,7 +161,6 @@ async function saveEvent() {
     cancelEdit();
     renderEvents();
 }
-
 
 async function uploadImage(base64Image, token) {
     try {
@@ -205,10 +189,8 @@ async function uploadImage(base64Image, token) {
     }
 }
 
-
 async function saveEventsToGitHub(token) {
     try {
-        
         const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             headers: {
                 'Authorization': `token ${token}`,
@@ -217,8 +199,6 @@ async function saveEventsToGitHub(token) {
         });
         const data = await getResponse.json();
         const sha = data.sha;
-
-       
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentEvents, null, 2))));
         const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
             method: 'PUT',
@@ -244,7 +224,6 @@ async function saveEventsToGitHub(token) {
     }
 }
 
-
 async function deleteEvent(id) {
     if (!confirm('Удалить это событие?')) return;
     const token = localStorage.getItem('github_token');
@@ -252,7 +231,6 @@ async function deleteEvent(id) {
     await saveEventsToGitHub(token);
     renderEvents();
 }
-
 
 let shopItems = [];
 let editingShopId = null;
@@ -405,9 +383,7 @@ async function deleteShopItem(id) {
     loadShopItems();
 }
 
-
 loadShopItems();
-
 
 async function loadPurchases() {
     try {
