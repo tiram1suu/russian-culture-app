@@ -30,7 +30,7 @@ function checkPassword() {
 async function loadEvents() {
     const token = localStorage.getItem('github_token');
     try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/events.json`, {
             headers: {
                 'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
@@ -166,7 +166,7 @@ async function uploadImage(base64Image, token) {
     try {
         const fileName = `event_${Date.now()}.jpg`;
         const content = base64Image.split(',')[1];
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/images/${fileName}`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/images/${fileName}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `token ${token}`,
@@ -191,7 +191,7 @@ async function uploadImage(base64Image, token) {
 
 async function saveEventsToGitHub(token) {
     try {
-        const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
+        const getResponse = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/events.json`, {
             headers: {
                 'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json'
@@ -200,7 +200,7 @@ async function saveEventsToGitHub(token) {
         const data = await getResponse.json();
         const sha = data.sha;
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentEvents, null, 2))));
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/events.json`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/events.json`, {
             method: 'PUT',
             headers: {
                 'Authorization': `token ${token}`,
@@ -342,13 +342,13 @@ async function saveShopItem() {
 
 async function saveShopToGitHub(token) {
     try {
-        const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/shop.json`, {
+        const getResponse = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/shop.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
         const data = await getResponse.json();
         const sha = data.sha;
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(shopItems, null, 2))));
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/shop.json`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/shop.json`, {
             method: 'PUT',
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
             body: JSON.stringify({ message: 'Update shop via admin panel', content: content, sha: sha })
@@ -395,7 +395,7 @@ function renderShopItems() {
 async function loadPurchases() {
     try {
         const token = localStorage.getItem('github_token');
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/data/purchases.json`, {
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
         const data = await response.json();
