@@ -48,6 +48,7 @@
             <button onclick="logout()" style="background:transparent; border:1px solid #555; color:white; padding:5px 15px; border-radius:6px; cursor:pointer;">Выйти</button>
         </div>
 
+        
         <div id="form-container" class="admin-form">
             <h3 id="form-title">➕ Добавить событие</h3>
             <input type="hidden" id="edit-id">
@@ -83,6 +84,46 @@
         <div id="events-list" class="events-list">
             <h3>📌 Список событий</h3>
             <div id="events-container-admin"></div>
+        </div>
+
+        
+        <div style="margin-top: 30px;">
+            <hr style="border-color: #333;">
+            <h3>🎁 Управление магазином</h3>
+            <button onclick="showShopForm()" style="background: #ffd700; color: black; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 10px;">
+                + Добавить товар
+            </button>
+        </div>
+
+        <div id="shop-admin-form" class="admin-form" style="display:none;">
+            <h3 id="shop-form-title">➕ Добавить товар</h3>
+            <input type="hidden" id="shop-edit-id">
+            <label>Название</label>
+            <input type="text" id="shop-edit-title" placeholder="Название товара">
+            <label>Описание</label>
+            <input type="text" id="shop-edit-description" placeholder="Описание товара">
+            <label>Цена (монеты)</label>
+            <input type="number" id="shop-edit-price" placeholder="50">
+            <label>Картинка</label>
+            <input type="file" id="shop-edit-image" accept="image/*">
+            <div id="shop-image-preview"></div>
+            <button onclick="saveShopItem()">💾 Сохранить товар</button>
+            <button onclick="cancelShopEdit()" style="background:#555; margin-left:10px;">Отмена</button>
+        </div>
+
+        <div id="shop-items-list" class="events-list">
+            <h3>📦 Список товаров</h3>
+            <div id="shop-items-container"></div>
+        </div>
+
+        
+        <div style="margin-top: 30px;">
+            <hr style="border-color: #333;">
+            <h3>📊 История покупок</h3>
+            <button onclick="loadPurchases()" style="background: #4a9eff; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">
+                Обновить
+            </button>
+            <div id="purchases-container" style="margin-top: 10px;"></div>
         </div>
     </div>
 </div>
