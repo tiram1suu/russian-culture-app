@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "кот",
+    "description": "собака",
+    "price": 1,
+    "limit": 3,
+    "image": ""
+  },
+  {
+    "id": 2,
+    "title": "осина",
+    "description": "дуб",
+    "price": -3,
+    "limit": 3,
+    "image": ""
+  }
+]
