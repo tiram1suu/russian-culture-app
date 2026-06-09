@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Скидка 10% на мероприятие",
     "description": "Скидка на любое событие центра",
-    "price": 50,
+    "price": 1,
     "image": "images/discount.jpg",
     "limit": 3
   },
@@ -16,4 +16,3 @@
     "limit": 3
   }
 ]
-
