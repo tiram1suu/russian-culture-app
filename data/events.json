@@ -1,15 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Тест 1",
-    "category": "оно самое",
-    "date": "5 июля",
-    "time": "7:30",
-    "coins": 1,
-    "image": "images/event_1781019809539.jpg",
-    "form_link": "https://forms.yandex.ru/u/6a22f7426d2d730f8acd5eaa"
-  },
-  {
     "id": 2,
     "title": "Тест 2",
     "category": "Они самые",
