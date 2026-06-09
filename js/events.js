@@ -1,13 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelector('.filter-btn.active').classList.remove('active');
-            this.classList.add('active');
-            loadEvents();
-        });
-    });
 });
 
 async function loadEvents() {
@@ -21,9 +13,24 @@ async function loadEvents() {
             const card = document.createElement('div');
             card.className = 'event-card';
 
-            
-            const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [] };
+            const userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
             const isAttended = userData.eventsAttended.includes(event.id);
+
+            
+            let actionButton = '';
+            if (isAttended) {
+                actionButton = `
+                    <button class="btn-cancel-card" onclick="cancelEvent(${event.id}, ${event.coins})">
+                        ❌ Отменить запись
+                    </button>
+                `;
+            } else {
+                actionButton = `
+                    <button class="btn-join-card" onclick="joinEventFromCard(${event.id}, ${event.coins}, '${event.form_link}')">
+                        Я ИДУ
+                    </button>
+                `;
+            }
 
             card.innerHTML = `
                 <div class="event-card-inner">
@@ -37,9 +44,7 @@ async function loadEvents() {
                         </div>
                     </div>
                     <div class="event-actions">
-                        <button class="btn-join-card" onclick="joinEventFromCard(${event.id}, ${event.coins}, '${event.form_link}')" ${isAttended ? 'disabled' : ''}>
-                            ${isAttended ? '✅ Вы записаны' : 'Я ИДУ'}
-                        </button>
+                        ${actionButton}
                     </div>
                 </div>
             `;
@@ -62,20 +67,42 @@ function joinEventFromCard(id, coins, formLink) {
         return;
     }
 
-    
     userData.eventsAttended.push(id);
     userData.totalCoins += coins;
     localStorage.setItem('russianCultureUser', JSON.stringify(userData));
 
-    
     if (formLink) {
         tg.openLink(formLink);
     } else {
         tg.showAlert("Ссылка на форму отсутствует. Свяжитесь с организатором.");
     }
 
-    
     loadEvents();
-    
     tg.showAlert(`Вы записаны! +${coins} монет. Всего: ${userData.totalCoins}`);
+}
+
+
+function cancelEvent(id, coins) {
+    const tg = window.Telegram.WebApp;
+    let userData = JSON.parse(localStorage.getItem('russianCultureUser')) || { eventsAttended: [], totalCoins: 0 };
+    
+    if (!userData.eventsAttended.includes(id)) {
+        tg.showAlert("Вы не записаны на это событие!");
+        return;
+    }
+
+    
+    if (!confirm('Вы уверены, что хотите отменить запись? Монеты вернутся.')) return;
+
+    
+    userData.eventsAttended = userData.eventsAttended.filter(e => e !== id);
+    userData.totalCoins -= coins;
+    
+    
+    if (userData.totalCoins < 0) userData.totalCoins = 0;
+    
+    localStorage.setItem('russianCultureUser', JSON.stringify(userData));
+
+    loadEvents();
+    tg.showAlert(`Запись отменена. Возвращено ${coins} монет. Всего: ${userData.totalCoins}`);
 }
