@@ -17,8 +17,14 @@ async function loadShop() {
         purchased = purchased.filter(id => existingIds.includes(id));
         localStorage.setItem('purchasedItems', JSON.stringify(purchased));
 
-        const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
-        const allPurchases = await purchasesResponse.json();
+        
+        let allPurchases = [];
+        try {
+            const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
+            allPurchases = await purchasesResponse.json();
+        } catch (e) {
+            
+        }
 
         items.forEach(item => {
             const isPurchasedByMe = purchased.includes(item.id);
@@ -67,26 +73,33 @@ async function buyItem(id, price) {
         return;
     }
 
+   
     const shopResponse = await fetch(`data/shop.json?t=${Date.now()}`);
     const items = await shopResponse.json();
     const item = items.find(i => i.id === id);
     if (item && item.limit) {
-        const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
-        const allPurchases = await purchasesResponse.json();
-        const totalPurchased = allPurchases.filter(p => p.itemId === id).length;
-        if (totalPurchased >= item.limit) {
-            tg.showAlert('❌ Товар уже раскупили!');
-            return;
+        try {
+            const purchasesResponse = await fetch(`data/purchases.json?t=${Date.now()}`);
+            const allPurchases = await purchasesResponse.json();
+            const totalPurchased = allPurchases.filter(p => p.itemId === id).length;
+            if (totalPurchased >= item.limit) {
+                tg.showAlert('❌ Товар уже раскупили!');
+                return;
+            }
+        } catch (e) {
+            
         }
     }
 
     if (!confirm(`Купить "${item.title}" за ${price} монет?`)) return;
 
+    
     userData.totalCoins -= price;
     purchased.push(id);
     localStorage.setItem('russianCultureUser', JSON.stringify(userData));
     localStorage.setItem('purchasedItems', JSON.stringify(purchased));
 
+    
     const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
     const username = tgUser ? `@${tgUser.username || tgUser.first_name}` : 'Гость';
     const purchase = {
@@ -96,6 +109,10 @@ async function buyItem(id, price) {
         date: new Date().toISOString()
     };
 
+    
+    await ensurePurchasesFileExists();
+
+    
     await savePurchaseToGitHub(purchase);
 
     loadShop();
@@ -103,9 +120,38 @@ async function buyItem(id, price) {
     tg.showAlert('✅ Покупка успешна!');
 }
 
+
+async function ensurePurchasesFileExists() {
+    try {
+        const token = localStorage.getItem('github_token');
+        const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
+            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        
+        if (response.ok) return;
+        
+        
+        const putResponse = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
+            method: 'PUT',
+            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' },
+            body: JSON.stringify({
+                message: 'Create purchases.json',
+                content: btoa(unescape(encodeURIComponent(JSON.stringify([])))),
+                sha: null
+            })
+        });
+        if (!putResponse.ok) {
+            console.error('Не удалось создать purchases.json');
+        }
+    } catch (error) {
+        console.error('Ошибка при создании purchases.json:', error);
+    }
+}
+
 async function savePurchaseToGitHub(purchase) {
     try {
         const token = localStorage.getItem('github_token');
+        
         const response = await fetch(`https://api.github.com/repos/tiram1suu/russian-culture-app/contents/data/purchases.json`, {
             headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
         });
