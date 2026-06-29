@@ -8,5 +8,15 @@
     "coins": 20,
     "image": "images/event_1782723272086.jpg",
     "form_link": "https://forms.yandex.ru/u/6a2911e702848fb60ce833ce"
+  },
+  {
+    "id": 2,
+    "title": "Событие пример",
+    "category": "Кино",
+    "date": "10 июля",
+    "time": "18 00",
+    "coins": 20,
+    "image": "images/event_1782723273886.jpg",
+    "form_link": "https://forms.yandex.ru/u/6a2911e702848fb60ce833ce"
   }
 ]
