@@ -8,5 +8,15 @@
     "coins": 20,
     "image": "images/event_1782723272086.jpg",
     "form_link": "https://forms.yandex.ru/u/6a2911e702848fb60ce833ce"
+  },
+  {
+    "id": 2,
+    "title": "Кинособрание №4",
+    "category": "Кино",
+    "date": "18 июля",
+    "time": "14 00",
+    "coins": 20,
+    "image": "images/event_1784111153640.jpg",
+    "form_link": "https://forms.yandex.ru/u/69859cb81f1eb544384fbb58/"
   }
 ]
