@@ -1,6 +1,7 @@
 # 🏛️ Russian Culture Center – Telegram Mini App
 
 👩‍💻 Автор: Марианна Сумина
+
 🌐 Портфолио: https://tiram1suu.github.io/portfolio/
 
 > **Интерактивная платформа для управления событиями и культурным досугом в Telegram.**  
