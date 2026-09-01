@@ -8,5 +8,15 @@
     "coins": 20,
     "image": "images/event_1788249622315.jpg",
     "form_link": "https://forms.yandex.ru/u/6a9678b5e010db02b586dd30"
+  },
+  {
+    "id": 2,
+    "title": "Лекция от основательницы студ. театра Tamburine",
+    "category": "театр",
+    "date": "8 сентября",
+    "time": "18 00",
+    "coins": 20,
+    "image": "images/event_1788249624547.jpg",
+    "form_link": "https://forms.yandex.ru/u/6a9678b5e010db02b586dd30"
   }
 ]
