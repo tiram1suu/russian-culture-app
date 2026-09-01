@@ -18,5 +18,15 @@
     "coins": 20,
     "image": "images/event_1788250367129.jpg",
     "form_link": "https://forms.yandex.ru/u/6a9680be02848f02231df05b"
+  },
+  {
+    "id": 3,
+    "title": "Съёмка репортажа с Московской недели моды",
+    "category": "медиа",
+    "date": "30 сент",
+    "time": "12 00",
+    "coins": 20,
+    "image": "images/event_1788250476394.jpg",
+    "form_link": "https://forms.yandex.ru/u/6a9681c802848f04f51df018"
   }
 ]
